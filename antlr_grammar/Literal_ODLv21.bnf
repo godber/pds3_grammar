@@ -1,0 +1,296 @@
+/*****************************************************************************
+ * ODLv2 as Defined Here: http://pds.nasa.gov/documents/sr/Chapter12.pdf
+ * This is a strict transliteration of the grammar described above for
+ * possible referance purposes, it it not a functional ANTLR4 grammar.
+ *****************************************************************************/
+
+grammar ODLv21;
+
+/*****************************************************************************
+ * Character Set - Section 12.2
+ *****************************************************************************/
+
+CHARACTER
+    : LETTER
+    | DIGIT
+    | SPECIAL_CHARACTER
+    | SPACING_CHARACTER
+    | FORMAT_EFFECTOR
+    | OTHER_CHARACTER
+    ;
+
+LETTER
+    : [A-Za-z]
+    ;
+
+DIGIT
+    : [0-9]
+    ;
+
+SPECIAL_CHARACTER
+    : [{}()+-."'=_,/:*#&^<>]
+    ;
+
+SPACING_CHARACTER
+    : [ \t]+ -> skip  // toss out whitespace
+    ;
+
+/* ignoring these until I figure out how to represent them
+    | form_feed
+    | veritcal_tab
+*/
+FORMAT_EFFECTOR
+    : [\r\n]
+    ;
+
+/* ignoring problematic characters until I figure out how to handle literal
+   special characters
+    : [!$%;?@[]`~|]
+*/
+OTHER_CHARACTER
+    : [!$%;?@~]
+    ;
+
+
+/*****************************************************************************
+ * Lexical Elements - Section 12.3
+ *****************************************************************************/
+
+INTEGER
+    : (SIGN) UNSIGNED_INTEGER
+    ;
+
+UNSIGNED_INTEGER
+    : (DIGIT)+
+    ;
+
+SIGN
+    : [+-]
+    ;
+
+BASED_INTEGER
+    : RADIX'#'(SIGN)(EXTENDED_DIGIT)+'#'
+    ;
+
+EXTENDED_DIGIT
+    : DIGIT
+    | LETTER
+    ;
+
+RADIX
+    : UNSIGNED_INTEGER
+    ;
+
+REAL
+    : (SIGN) UNSCALED_REAL
+    | (SIGN) SCALED_REAL
+    ;
+
+UNSCALED_REAL
+    : UNSIGNED_INTEGER.(UNSIGNED_INTEGER)
+    | .UNSIGNED_INTEGER
+    ;
+
+SCALED_REAL
+    : UNSCALED_REAL EXPONENT
+    ;
+
+EXPONENT
+    : 'E' INTEGER
+    | 'e' INTEGER
+    ;
+
+DATE
+    : YEAR_DOY
+    | YEAR_MONTH_DAY
+    ;
+
+YEAR_DOY
+    : YEAR '-' DOY
+    ;
+
+YEAR_MONTH_DAY
+    : YEAR '-' MONTH '-' DAY
+    ;
+
+YEAR
+    : UNSIGNED_INTEGER
+    ;
+
+MONTH
+    : UNSIGNED_INTEGER
+    ;
+
+DAY
+    : UNSIGNED_INTEGER
+    ;
+
+DOY
+    : UNSIGNED_INTEGER
+    ;
+
+TIME
+    : LOCAL_TIME
+    | UTC_TIME
+    | ZONED_TIME
+    ;
+
+LOCAL_TIME
+    : HOUR_MIN_SEC
+    ;
+
+UTC_TIME
+    : HOUR_MIN_SEC 'Z'
+    ;
+
+ZONED_TIME
+    : HOUR_MIN_SEC ZONE_OFFSET
+    ;
+
+HOUR_MIN_SEC
+    : HOUR':'MINUTE(':'SECOND)
+    ;
+
+ZONE_OFFSET
+    : SIGN HOUR(':'MINUTE)
+    ;
+
+HOUR
+    : UNSIGNED_INTEGER
+    ;
+
+MINUTE
+    : UNSIGNED_INTEGER
+    ;
+
+SECOND
+    : UNSIGNED_INTEGER
+    | UNSCALED_REAL
+    ;
+
+DATE_TIME
+    : DATE 'T' TIME
+    ;
+
+QUOTED_TEXT
+    : '"'(CHARACTER)*'"'
+    ;
+
+QUOTED_SYMBOL
+    : '\''(CHARACTER)+'\''
+    ;
+
+IDENTIFIER
+    : LETTER (LETTER|DIGIT|'_'LETTER|'_'DIGIT)*
+    ;
+
+/*****************************************************************************
+ * Statements - Section 12.4
+ *****************************************************************************/
+
+label
+    : (statement)*
+      'end'
+    ;
+
+statement
+    : assignment_stmt
+    | pointer_stmt
+    | object_stmt
+    | group_stmt
+    ;
+
+
+assignment_stmt
+    : IDENTIFIER '=' value
+    | IDENTIFIER ':' IDENTIFIER '=' value
+    ;
+
+pointer_stmt
+    : '^'IDENTIFIER '=' value
+    ;
+
+object_stmt
+    : 'object' '=' IDENTIFIER
+      (statement)*
+      'end_object' ('=' IDENTIFIER)
+    ;
+
+group_stmt
+    : 'group' '=' IDENTIFIER
+      (statement)*
+      'end_group' ('='IDENTIFIER)
+    ;
+
+
+/*****************************************************************************
+ * Values - Section 12.5
+ *****************************************************************************/
+
+value
+    : scalar_value
+    | sequence_value
+    | set_value
+    ;
+
+scalar_value
+    : numeric_value
+    | date_time_value
+    | text_string_value
+    | symbolic_value
+    ;
+
+numeric_value
+    : INTEGER (units_expression)
+    | BASED_INTEGER (units_expression)
+    | REAL (units_expression)
+    ;
+
+units_expression
+    : '<'units_factor(mult_op units_factor)*'>'
+    ;
+
+units_factor
+    : IDENTIFIER (exp_op INTEGER)
+    ;
+
+mult_op
+    : ('*'|'/')
+    ;
+
+exp_op
+    : '**'
+    ;
+
+date_time_value
+    : DATE
+    | TIME
+    | DATE_TIME
+    ;
+
+text_string_value
+    : QUOTED_TEXT
+    ;
+
+symbolic_value
+    : IDENTIFIER
+    | QUOTED_SYMBOL
+    ;
+
+sequence_value
+    : sequence_1D
+    | sequence_2D
+    ;
+
+sequence_1D
+    : '('scalar_value (',' scalar_value)*')'
+    ;
+
+sequence_2D
+    : '('(sequence_1D)+')'
+    ;
+
+set_value
+    : '{'scalar_value (',' scalar_value)*'}'
+    | '{}'
+    ;

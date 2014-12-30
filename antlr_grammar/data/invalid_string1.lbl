@@ -1,0 +1,6 @@
+PDS_VERSION_ID = PDS3
+INTEGER1       = 1
+FLOAT          = 2.3
+COMMENT1       = THING TEST
+COMMENT2       = Alive.
+END
