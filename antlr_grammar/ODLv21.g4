@@ -33,7 +33,11 @@ value
   ;
 
 units_expression
-  : '<' IDENTIFIER '>'
+  : '<' units_factor ( ('*'|'/') units_factor )* '>'
+  ;
+
+units_factor
+  : IDENTIFIER ('**' INTEGER)?
   ;
 
 namespace_identifier
