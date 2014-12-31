@@ -13,6 +13,8 @@ label
 statement
   : assignment_stmt (COMMENT)? NEWLINE
   | pointer_stmt (COMMENT)? NEWLINE
+  | object_stmt (COMMENT)? NEWLINE
+  | group_stmt (COMMENT)? NEWLINE
   ;
 
 assignment_stmt
@@ -22,6 +24,18 @@ assignment_stmt
 
 pointer_stmt
   : '^' IDENTIFIER '=' value
+  ;
+
+object_stmt
+  : 'OBJECT' '=' IDENTIFIER (COMMENT)? NEWLINE
+    (statement)*
+    'END_OBJECT' ('=' IDENTIFIER)?
+  ;
+
+group_stmt
+  : 'GROUP' '=' IDENTIFIER (COMMENT)? NEWLINE
+    (statement)*
+    'END_GROUP' ('=' IDENTIFIER)?
   ;
 
 value
