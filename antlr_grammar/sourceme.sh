@@ -16,6 +16,12 @@ guirun() {
   cd ..
 }
 
+psrun() {
+  testfile=`readlink -f $1`
+  cd build-java/ && $GRUN_CMD ODLv21 label -ps $testfile.ps < $testfile
+  cd ..
+}
+
 tokenrun() {
   testfile=`readlink -f $1`
   cd build-java/ && $GRUN_CMD ODLv21 label -tokens < $testfile
