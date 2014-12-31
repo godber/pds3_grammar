@@ -18,13 +18,6 @@ assignment_stmt
   : IDENTIFIER '=' value
   ;
 
-// I am not sure this is necessary, should these just be included in the value
-// rule?
-symbolic_value
-  : IDENTIFIER
-  | SYMBOL_STRING
-  ;
-
 value
   : scalar_value
   | sequence_value
@@ -54,7 +47,8 @@ set_value
 scalar_value
   : INTEGER (units_expression)?
   | FLOAT (units_expression)?
-  | symbolic_value
+  | IDENTIFIER
+  | SYMBOL_STRING
   | STRING
   ;
 
