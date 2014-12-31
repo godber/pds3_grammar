@@ -12,11 +12,16 @@ label
 
 statement
   : assignment_stmt (COMMENT)? NEWLINE
+  | pointer_stmt (COMMENT)? NEWLINE
   ;
 
 assignment_stmt
   : IDENTIFIER '=' value
   | namespace_identifier ':' IDENTIFIER '=' value
+  ;
+
+pointer_stmt
+  : '^' IDENTIFIER '=' value
   ;
 
 value
