@@ -26,11 +26,9 @@ symbolic_value
   ;
 
 value
-  : STRING
-  | INTEGER (units_expression)?
-  | FLOAT (units_expression)?
-  | symbolic_value
+  : scalar_value
   | sequence_value
+  | set_value
   ;
 
 sequence_value
@@ -46,9 +44,16 @@ sequence_2D
   : '(' sequence_1D (',' sequence_1D)* ')'
   ;
 
+// NOTE: Despite the grammar accepting any scalar value in sets, the PDS only
+//       accepts SYMBOL and INTEGER values in sets. See 12.5.6.1
+set_value
+  : '{' scalar_value (',' scalar_value) '}'
+  | '{' '}'
+  ;
+
 scalar_value
-  : INTEGER
-  | FLOAT
+  : INTEGER (units_expression)?
+  | FLOAT (units_expression)?
   | symbolic_value
   | STRING
   ;
