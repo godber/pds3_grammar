@@ -11,11 +11,12 @@ label
   ;
 
 statement
-  : (namespace_identifier)? assignment_stmt (COMMENT)* NEWLINE
+  : assignment_stmt (COMMENT)? NEWLINE
   ;
 
 assignment_stmt
   : IDENTIFIER '=' value
+  | namespace_identifier ':' IDENTIFIER '=' value
   ;
 
 value
@@ -61,7 +62,7 @@ units_factor
   ;
 
 namespace_identifier
-  : IDENTIFIER ':'
+  : IDENTIFIER
   ;
 
 IDENTIFIER
