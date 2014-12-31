@@ -30,6 +30,27 @@ value
   | INTEGER (units_expression)?
   | FLOAT (units_expression)?
   | symbolic_value
+  | sequence_value
+  ;
+
+sequence_value
+  : sequence_1D
+  | sequence_2D
+  ;
+
+sequence_1D
+  : '(' scalar_value (',' scalar_value)* ')'
+  ;
+
+sequence_2D
+  : '(' sequence_1D (',' sequence_1D)* ')'
+  ;
+
+scalar_value
+  : INTEGER
+  | FLOAT
+  | symbolic_value
+  | STRING
   ;
 
 units_expression
