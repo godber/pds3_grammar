@@ -42,6 +42,13 @@ value
   : scalar_value
   | sequence_value
   | set_value
+  | date_time_value
+  ;
+
+date_time_value
+  : DATE
+  | TIME
+  | DATE_TIME
   ;
 
 sequence_value
@@ -82,6 +89,35 @@ units_factor
 
 namespace_identifier
   : IDENTIFIER
+  ;
+
+
+DATE
+  : YEAR_MONTH_DAY
+  | YEAR_DOY
+  ;
+
+TIME
+  : HH_MM_SS                    // HH:MM(:SS)
+  | HH_MM_SS 'Z'                // HH:MM(:SS)Z
+  | HH_MM_SS ('+'|'-') DIGIT+   // HH:MM(:SS)+N
+  ;
+
+YEAR_MONTH_DAY
+  : DIGIT DIGIT DIGIT DIGIT '-' DIGIT+ '-' DIGIT+    // YYYY-MM-DD
+  ;
+
+YEAR_DOY
+  : DIGIT DIGIT DIGIT DIGIT '-' DIGIT+               // YYYY-DOY
+  ;
+
+HH_MM_SS
+  : DIGIT DIGIT ':' DIGIT DIGIT (':' DIGIT DIGIT)?  // HH:MM(:SS)
+  | DIGIT DIGIT ':' DIGIT DIGIT (':' DIGIT DIGIT '.' DIGIT+)?  // HH:MM(:SS.FF)
+  ;
+
+DATE_TIME
+  : DATE 'T' TIME
   ;
 
 IDENTIFIER
