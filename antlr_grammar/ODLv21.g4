@@ -28,13 +28,13 @@ pointer_stmt
 
 object_stmt
   : 'OBJECT' '=' IDENTIFIER (COMMENT)? NEWLINE
-    (statement)*
+    (statement|COMMENT|NEWLINE)*
     'END_OBJECT' ('=' IDENTIFIER)?
   ;
 
 group_stmt
   : 'GROUP' '=' IDENTIFIER (COMMENT)? NEWLINE
-    (statement)*
+    (statement|COMMENT|NEWLINE)*
     'END_GROUP' ('=' IDENTIFIER)?
   ;
 
