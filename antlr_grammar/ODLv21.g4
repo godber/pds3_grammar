@@ -100,7 +100,7 @@ DATE
 TIME
   : HH_MM_SS                    // HH:MM(:SS)
   | HH_MM_SS 'Z'                // HH:MM(:SS)Z
-  | HH_MM_SS ('+'|'-') DIGIT+   // HH:MM(:SS)+N
+  | HH_MM_SS SIGN DIGIT+   // HH:MM(:SS)+N
   ;
 
 YEAR_MONTH_DAY
@@ -118,6 +118,10 @@ HH_MM_SS
 
 DATE_TIME
   : DATE 'T' TIME
+  ;
+
+SIGN
+  : ('+'|'-')
   ;
 
 IDENTIFIER
