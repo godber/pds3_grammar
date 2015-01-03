@@ -45,6 +45,13 @@ in the name.  It will run the TestRig diagnostics function.  If there
 are no lexing or parsing errors, this will generate no output.  Only
 errors will generate output.
 
+*Note* that this is just a simple 'smoke test', it only indicates whether
+or not the sample inputs lex and parse cleanly.  It does not guarantee
+that the parse trees or tokens are what they should be.  More rigorous
+testing could use the `tokenrun` and `treerun` functions.  I will
+probably be doing my testing at a higher level, at the python parser
+level, where better testing tools are available.
+
 ## Developing
 
 The general development workflow is
