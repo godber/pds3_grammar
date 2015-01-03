@@ -2,6 +2,10 @@
 
 This is an ANTLR v4 grammar for the NASA PDSv3 ODL v2.1 label.
 
+This grammar is defined in
+[Chapter 12](https://pds.jpl.nasa.gov/documents/sr/Chapter12.pdf) of the
+[PDS Standards Reference](https://pds.jpl.nasa.gov/tools/standards-reference.shtml).
+
 It is BDS licensed, see the [LICENSE](LICENSE) for details.
 
 
