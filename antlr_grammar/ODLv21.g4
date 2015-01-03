@@ -43,6 +43,7 @@ value
   | sequence_value
   | set_value
   | date_time_value
+  | BASED_INTEGER
   ;
 
 date_time_value
@@ -137,6 +138,10 @@ STRING
 // Symbol String 12.3.3.2 or quoted_symbol
 SYMBOL_STRING
   : '\'' ~['\r\n\f\v]+? '\''
+  ;
+
+BASED_INTEGER
+  : DIGIT+ '#' (SIGN)? (DIGIT|[a-zA-Z])+ '#'
   ;
 
 INTEGER
