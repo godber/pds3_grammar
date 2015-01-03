@@ -43,7 +43,6 @@ value
   | sequence_value
   | set_value
   | date_time_value
-  | BASED_INTEGER
   ;
 
 date_time_value
@@ -74,7 +73,9 @@ set_value
 
 scalar_value
   : INTEGER (units_expression)?
+  | BASED_INTEGER (units_expression)?
   | FLOAT (units_expression)?
+  | SCALED_REAL (units_expression)?
   | IDENTIFIER
   | SYMBOL_STRING
   | STRING
@@ -140,18 +141,23 @@ SYMBOL_STRING
   : '\'' ~['\r\n\f\v]+? '\''
   ;
 
+// Unscaled Real: 12.3.1.3
+FLOAT
+  : (SIGN)? DIGIT+ '.' DIGIT*  // 1.23 1. 1.123123
+  | (SIGN)? '.' DIGIT+         // .1 .123123
+  ;
+
+SCALED_REAL
+  : FLOAT ('E'|'e') INTEGER    // 1.0E5, .5e3
+  | INTEGER ('E'|'e') INTEGER   // 3145e3 - Handling an integer mantissa
+  ;
+
 BASED_INTEGER
   : DIGIT+ '#' (SIGN)? (DIGIT|[a-zA-Z])+ '#'
   ;
 
 INTEGER
-  : ('-')? DIGIT+
-  ;
-
-// FIXME: Handle valid exponential notation.
-FLOAT
-  : ('-')? DIGIT+ '.' DIGIT*  // 1.23 1. 1.123123
-  | ('-')? '.' DIGIT+         // .1 .123123
+  : (SIGN)? DIGIT+
   ;
 
 fragment
