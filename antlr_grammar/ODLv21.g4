@@ -67,7 +67,7 @@ sequence_2D
 // NOTE: Despite the grammar accepting any scalar value in sets, the PDS only
 //       accepts SYMBOL and INTEGER values in sets. See 12.5.6.1
 set_value
-  : '{' scalar_value (',' scalar_value) '}'
+  : '{' scalar_value (',' scalar_value)* '}'
   | '{' '}'
   ;
 
