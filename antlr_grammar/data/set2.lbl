@@ -10,4 +10,13 @@ SYM_SET1       = {ONE,
 SYM_SET2       = {ONE,
                   TWO,
                   THREE}
+SYM_SET3       = {ONE
+                 ,TWO
+                 ,THREE}
+SYM_SET4       = {ONE
+                 ,
+                 TWO
+                 ,
+                 THREE
+                 }
 END
