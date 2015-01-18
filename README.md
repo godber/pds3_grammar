@@ -9,6 +9,12 @@ This grammar is defined in
 It is BDS licensed, see the [LICENSE](LICENSE) for details.
 
 
+## Known Bugs
+
+* Strings are not properly parsed by this grammar.  They will still
+  contain any spacing and line feed characters from the original label.
+  See: https://github.com/godber/pds3_grammar/issues/2
+
 ## Dependencies
 
 The supporting scripts assume you have ANTLR 4.4 installed at the
