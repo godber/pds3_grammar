@@ -131,7 +131,9 @@ IDENTIFIER
   ;
 
 // STRING corresponds to quoted_text
-// FIXME: Use Lexer Mode to handle formatting inside string
+// NOTE: This rule will return strings that contain newlines and spaces which
+//       are not compliant with 12.5.3.1.  Strings must be massaged at the
+//       application level to make them compliant with 12.5.3.1.
 STRING
   : '"' ~["]*? '"'
   ;
