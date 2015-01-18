@@ -21,6 +21,8 @@ build-java/ODLv21Lexer.java: ODLv21.g4
 pds3_python.tar.gz: $(PYTARGETS)
 	mkdir -p $(PYBUILDDIR)
 	cp $(PYTARGETS) $(PYBUILDDIR)
+	cp ../README.md $(PYBUILDDIR)/README.md
+	cp ../LICENSE $(PYBUILDDIR)
 	cd build; tar -czf $@ $(PYVERSIONDIR); cd ..
 
 release: pds3_python.tar.gz

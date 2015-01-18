@@ -6,8 +6,11 @@ This grammar is defined in
 [Chapter 12](https://pds.jpl.nasa.gov/documents/sr/Chapter12.pdf) of the
 [PDS Standards Reference](https://pds.jpl.nasa.gov/tools/standards-reference.shtml).
 
-It is BDS licensed, see the [LICENSE](LICENSE) for details.
+It is BDS licensed, see the following LICENSE file for details:
+https://github.com/godber/pds3_grammar/blob/master/LICENSE
 
+Visit the Github repo:
+https://github.com/godber/pds3_grammar
 
 ## Known Bugs
 
