@@ -49,14 +49,32 @@ This project includes a simple `test.sh` script that will loop over all
 `*.lbl` files in the `data/` directory, excluding files with `invalid`
 in the name.  It will run the TestRig diagnostics function.  If there
 are no lexing or parsing errors, this will generate no output.  Only
-errors will generate output.
+errors will generate output.  See more in the **Developing** section.
 
-*Note* that this is just a simple 'smoke test', it only indicates whether
+**Note** that this is just a simple 'smoke test', it only indicates whether
 or not the sample inputs lex and parse cleanly.  It does not guarantee
 that the parse trees or tokens are what they should be.  More rigorous
 testing could use the `tokenrun` and `treerun` functions.  I will
 probably be doing my testing at a higher level, at the python parser
 level, where better testing tools are available.
+
+## Releasing
+
+At this point, I consider the generated Python code to be the release
+product.  However, these are not stored in the repo since they are
+entirely generated products.
+
+```
+# Finish work and commit changes
+# Update VERSION.txt
+# Generates python code and makes the release tarball
+make release
+# Tag repo with version
+git tag `cat VERSION.txt`
+# Push repo
+git push
+# Manually upload tarball to github.
+```
 
 ## Developing
 
@@ -91,6 +109,6 @@ Running the following:
 guirun data/dates.lbl
 ```
 
-will yeild:
+will yield:
 
 ![Dates Parse Tree](/antlr_grammar/dates_gui.png?raw=true)
