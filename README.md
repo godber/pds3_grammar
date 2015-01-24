@@ -1,5 +1,7 @@
 # ANTLR4 PDSv3 Grammar
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/godber/pds3_grammar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This is an ANTLR v4 grammar for the NASA PDSv3 ODL v2.1 label.
 
 This grammar is defined in
