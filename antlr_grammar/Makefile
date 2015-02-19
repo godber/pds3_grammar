@@ -13,7 +13,7 @@ all: clean $(PYTARGETS) build-java/ODLv21Lexer.java
 	javac build-java/*.java
 
 $(PYTARGETS): ODLv21.g4
-	$(antlr4) ODLv21.g4 -o build-python -Dlanguage=Python2
+	$(antlr4) ODLv21.g4 -o build-python -visitor -Dlanguage=Python2
 
 build-java/ODLv21Lexer.java: ODLv21.g4
 	$(antlr4) ODLv21.g4 -o build-java

@@ -72,13 +72,13 @@ set_value
   ;
 
 scalar_value
-  : INTEGER (units_expression)?
-  | BASED_INTEGER (units_expression)?
-  | FLOAT (units_expression)?
-  | SCALED_REAL (units_expression)?
-  | IDENTIFIER
-  | SYMBOL_STRING
-  | STRING
+  : INTEGER (units_expression)?         # ScalarInteger
+  | BASED_INTEGER (units_expression)?   # ScalarBasedInteger
+  | FLOAT (units_expression)?           # ScalarFloat
+  | SCALED_REAL (units_expression)?     # ScalarScaledReal
+  | IDENTIFIER                          # ScalarIdentifier
+  | SYMBOL_STRING                       # ScalarSymbol
+  | STRING                              # ScalarString
   ;
 
 units_expression
@@ -100,8 +100,8 @@ DATE
   ;
 
 TIME
-  : HH_MM_SS                    // HH:MM(:SS)
-  | HH_MM_SS 'Z'                // HH:MM(:SS)Z
+  : HH_MM_SS               // HH:MM(:SS)
+  | HH_MM_SS 'Z'           // HH:MM(:SS)Z
   | HH_MM_SS SIGN DIGIT+   // HH:MM(:SS)+N
   ;
 
@@ -114,7 +114,7 @@ YEAR_DOY
   ;
 
 HH_MM_SS
-  : DIGIT DIGIT ':' DIGIT DIGIT (':' DIGIT DIGIT)?  // HH:MM(:SS)
+  : DIGIT DIGIT ':' DIGIT DIGIT (':' DIGIT DIGIT)?             // HH:MM(:SS)
   | DIGIT DIGIT ':' DIGIT DIGIT (':' DIGIT DIGIT '.' DIGIT+)?  // HH:MM(:SS.FF)
   ;
 
@@ -145,13 +145,13 @@ SYMBOL_STRING
 
 // Unscaled Real: 12.3.1.3
 FLOAT
-  : (SIGN)? DIGIT+ '.' DIGIT*  // 1.23 1. 1.123123
-  | (SIGN)? '.' DIGIT+         // .1 .123123
+  : (SIGN)? DIGIT+ '.' DIGIT*      // 1.23 1. 1.123123
+  | (SIGN)? '.' DIGIT+             // .1 .123123
   ;
 
 SCALED_REAL
-  : FLOAT ('E'|'e') INTEGER    // 1.0E5, .5e3
-  | INTEGER ('E'|'e') INTEGER   // 3145e3 - Handling an integer mantissa
+  : FLOAT ('E'|'e') INTEGER        // 1.0E5, .5e3
+  | INTEGER ('E'|'e') INTEGER      // 3145e3 - Handling an integer mantissa
   ;
 
 BASED_INTEGER
