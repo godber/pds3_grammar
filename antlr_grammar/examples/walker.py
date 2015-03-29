@@ -5,23 +5,20 @@ from pprint import pprint
 import json
 
 from antlr4 import FileStream, CommonTokenStream, ParseTreeWalker
-from ODLv21Listener import ODLv21Listener
+from ODLv21Visitor import ODLv21Visitor
 from ODLv21Parser import ODLv21Parser
 from ODLv21Lexer import ODLv21Lexer
 
 
-class NodeTypeListener(ODLv21Listener):
+class NodeTypeVisitor(ODLv21Visitor):
     """Walks the Parse Tree and Prints out nodes and types"""
 
     def __init__(self):
-        self.label = OrderedDict()
-        super(NodeTypeListener, self).__init__()
+        super(NodeTypeVisitor, self).__init__()
 
-    def enterStatement(self, ctx):
-        pass
+    def visitAssignment_stmt(self, ctx):
+        print "Inside assignment"
 
-    def enterAssignment_stmt(self, ctx):
-        self.label[ctx.IDENTIFIER().getText()] = ctx.value().getText()
 
 def node_types(infile):
     input_stream = FileStream(infile)
@@ -31,11 +28,13 @@ def node_types(infile):
     parser = ODLv21Parser(tokens)
     parse_tree = parser.label()
 
-    listener = NodeTypeListener()
-    walker = ParseTreeWalker()
-    walker.walk(listener, parse_tree)
+    visitor = NodeTypeVisitor()
+    p = visitor.visit(parse_tree)
+    #walker = ParseTreeWalker()
+    #walker.walk(listener, parse_tree)
 
-    print(json.dumps(listener.label, indent=4))
+    #print(json.dumps(listener.label, indent=4))
+    return visitor
 
 
 if __name__ == '__main__':
