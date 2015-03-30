@@ -76,8 +76,8 @@ entirely generated products.
 make release
 # Tag repo with version
 git tag `cat VERSION.txt`
-# Push repo
-git push
+# Push repo and tags
+git push --tags
 # Manually upload tarball to github.
 ```
 
