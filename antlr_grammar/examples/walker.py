@@ -1,23 +1,44 @@
 #!/usr/bin/env python
 
-from collections import OrderedDict
-from pprint import pprint
-import json
-
-from antlr4 import FileStream, CommonTokenStream, ParseTreeWalker
+from antlr4 import FileStream, CommonTokenStream
 from ODLv21Visitor import ODLv21Visitor
 from ODLv21Parser import ODLv21Parser
 from ODLv21Lexer import ODLv21Lexer
 
 
-class NodeTypeVisitor(ODLv21Visitor):
+class AssignmentVisitor(ODLv21Visitor):
     """Walks the Parse Tree and Prints out nodes and types"""
 
     def __init__(self):
-        super(NodeTypeVisitor, self).__init__()
+        super(AssignmentVisitor, self).__init__()
 
     def visitAssignment_stmt(self, ctx):
-        print "Inside assignment"
+        val = self.visitChildren(ctx)
+        print "%s = %s" % (ctx.IDENTIFIER().getText(), val)
+        return val
+
+    def visitValue(self, ctx):
+        return ODLv21Visitor.visitChildren(self, ctx)
+
+    def visitScalarFloat(self, ctx):
+        ODLv21Visitor.visitScalarFloat(self, ctx)
+        return float(ctx.FLOAT().getText())
+
+    def visitScalarInteger(self, ctx):
+        ODLv21Visitor.visitScalarInteger(self, ctx)
+        return int(ctx.INTEGER().getText())
+
+    def visitScalarString(self, ctx):
+        ODLv21Visitor.visitScalarString(self, ctx)
+        return ctx.STRING().getText()
+
+    def visitScalarSymbol(self, ctx):
+        ODLv21Visitor.visitScalarSymbol(self, ctx)
+        return ctx.SYMBOL_STRING().getText()
+
+    def visitScalarIdentifier(self, ctx):
+        ODLv21Visitor.visitScalarIdentifier(self, ctx)
+        return ctx.IDENTIFIER().getText()
 
 
 def node_types(infile):
@@ -28,15 +49,13 @@ def node_types(infile):
     parser = ODLv21Parser(tokens)
     parse_tree = parser.label()
 
-    visitor = NodeTypeVisitor()
-    p = visitor.visit(parse_tree)
-    #walker = ParseTreeWalker()
-    #walker.walk(listener, parse_tree)
+    visitor = AssignmentVisitor()
 
-    #print(json.dumps(listener.label, indent=4))
-    return visitor
+    return visitor, parse_tree
 
 
 if __name__ == '__main__':
     import sys
-    node_types(sys.argv[1])
+    visitor, parse_tree = node_types(sys.argv[1])
+
+    visitor.visit(parse_tree)
