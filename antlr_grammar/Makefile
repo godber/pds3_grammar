@@ -2,7 +2,7 @@ antlr4 := java -jar /usr/local/lib/antlr-4.5-complete.jar
 
 PYTARGETS = build-python/ODLv21Lexer.py build-python/ODLv21Lexer.tokens \
 	build-python/ODLv21Listener.py build-python/ODLv21Parser.py \
-	build-python/ODLv21.tokens
+	build-python/ODLv21.tokens build-python/ODLv21Visitor.py
 
 # Release version used by release targets
 VERSION = $(strip $(shell cat VERSION.txt))
